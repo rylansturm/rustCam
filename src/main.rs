@@ -1,9 +1,13 @@
+#![warn(clippy::pedantic)]
+
 use actix_web::{get, web, App, HttpServer, Responder};
+
 
 #[get("/index.html")]
 async fn index() -> impl Responder {
-    format!("Hello, world!")
+    "Hello, world!".to_string()
 }
+
 
 #[actix_web::main]
 async fn main() -> std::io::Result<()> {
