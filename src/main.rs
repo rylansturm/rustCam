@@ -1,8 +1,8 @@
 #![warn(clippy::pedantic)]
 
-use actix_web::{get, web, App, HttpServer, HttpResponse, Responder, http::header};
-use rscam::{Camera, Config};
-use std::{fs, io::Write};
+use actix_web::{get, web, App, HttpServer, HttpResponse, Responder};
+use rscam::{Config};
+
 
 
 #[get("/index.html")]
@@ -12,9 +12,9 @@ async fn index() -> impl Responder {
 
 #[get("/image")]
 async fn image() -> impl Responder {
-    let mut camera = rscam::new("/dev/video11").expect("Bad Camera");
+    let mut camera = rscam::new("/dev/video0").expect("Bad Camera");
     camera.start(&Config{
-        interval: (1, 30),
+        interval: (1, 5),
         resolution: (1280, 720),
         format: b"MJPG",
         ..Default::default()
