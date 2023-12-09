@@ -1,9 +1,9 @@
 #![warn(clippy::pedantic)]
 
-use actix_web::{get, web, App, HttpServer, HttpResponse, Responder, http::header};
+use actix_web::{get, web, App, HttpServer, HttpResponse, Responder, http::header, Error};
 use rscam::{Camera, Config};
-use std::{fs, io::Write};
-use futures::{stream, StreamExt};
+use std::{fs, io::Write, pin::Pin};
+use futures::{Stream, stream, StreamExt};
 
 
 #[get("/index.html")]
@@ -11,14 +11,6 @@ async fn index() -> impl Responder {
     "Hello, world!".to_string()
 }
 
-// #[get("/video")]
-// async fn video() -> impl Responder {
-//     let boundary = "frame";
-
-//     HttpResponse::OK()
-//         .content_type(format!("multipart/x-mixed-replace;boundary={}", boundary))
-//         .streaming(stream:unfold())
-// }
 
 #[get("/image")]
 async fn image() -> impl Responder {
