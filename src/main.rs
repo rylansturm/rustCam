@@ -12,12 +12,13 @@ async fn index() -> impl Responder {
 
 #[get("/image")]
 async fn image() -> impl Responder {
-    let mut camera = rscam::new("/dev/video0").expect("Bad Camera");
+    let mut camera = rscam::new("/dev/video0").unwrap();
     camera.start(&Config{
-        interval: (1, 5),
-        resolution: (1280, 720),
+        interval: (1, 30),
+        resolution: (640, 480),
         format: b"MJPG",
-        ..Default::default()
+        field: rscam::FIELD_NONE,
+        nbuffers: 20,
     }).unwrap();
     let frame = camera.capture().unwrap();
     let image_data = frame.to_vec();
