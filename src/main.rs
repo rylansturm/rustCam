@@ -3,7 +3,6 @@
 use actix_web::{get, web, App, HttpServer, HttpResponse, Responder, http::header};
 use rscam::{Camera, Config};
 use std::{fs, io::Write};
-use futures::{stream, StreamExt};
 
 
 #[get("/index.html")]
@@ -11,18 +10,9 @@ async fn index() -> impl Responder {
     "Hello, world!".to_string()
 }
 
-// #[get("/video")]
-// async fn video() -> impl Responder {
-//     let boundary = "frame";
-
-//     HttpResponse::OK()
-//         .content_type(format!("multipart/x-mixed-replace;boundary={}", boundary))
-//         .streaming(stream:unfold())
-// }
-
 #[get("/image")]
 async fn image() -> impl Responder {
-    let mut camera = rscam::new("/dev/video0").unwrap();
+    let mut camera = rscam::new("/dev/video11").expect("Bad Camera");
     camera.start(&Config{
         interval: (1, 30),
         resolution: (1280, 720),
